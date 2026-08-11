@@ -31,6 +31,9 @@ server, no Tyk-provided tooling required.
 # macOS / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
+# macOS (Homebrew)
+brew install uv
+
 # Windows (PowerShell)
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 
@@ -80,10 +83,50 @@ example below.
 
 </details>
 
-## Configuration
+## Quick start
 
-Credentials can be provided either via a `.env` file or CLI flags (or a mix
-of both — see [Execution modes](#execution-modes) below).
+The primary way to run a check is to pass your Dashboard URL and API key
+directly as command arguments — no setup file required:
+
+```bash
+uv run tyk-dup-check \
+  --dashboard-url https://dashboard.your-company.com \
+  --api-key <your-dashboard-api-key>
+```
+
+Get the API key from **Dashboard → User Profile → API Access Credentials**.
+That's the whole workflow — it connects, fetches every API, and prints any
+that share a route.
+
+For brevity, the rest of this README mostly drops `--dashboard-url`/
+`--api-key` from examples; add them to any command below, or set up a
+`.env` file instead (see [Using a `.env` file](#using-a-env-file)) if you'd
+rather not retype them on every run.
+
+## Execution modes
+
+Credentials resolve per-field: **CLI flags take priority**, environment
+variables / `.env` are the fallback for whichever flag you didn't pass — so
+the two can be mixed:
+
+```bash
+# 1. CLI flags only (recommended for one-off runs, scripts, CI) — shown above
+
+# 2. Environment / .env only, once configured (see below)
+uv run tyk-dup-check
+
+# 3. Mixed — .env supplies the URL, flag overrides just the key
+uv run tyk-dup-check --api-key tyk-rotated-key...
+```
+
+Note: passing `--api-key` on the command line puts the key in your shell
+history and process list (`ps`). For anything beyond a quick one-off or a
+CI secret injected at runtime, prefer `.env`.
+
+## Using a `.env` file
+
+Optional convenience for repeated local runs, so you don't have to pass
+`--dashboard-url`/`--api-key` every time:
 
 ```bash
 cp .env.example .env
@@ -100,34 +143,11 @@ Edit `.env`:
 
 `.env` is gitignored — never commit real credentials.
 
-## Running it
+Once set up:
 
 ```bash
 uv run tyk-dup-check
 ```
-
-## Execution modes
-
-Credentials resolve per-field, CLI flag first, `.env`/environment as
-fallback — so you can mix sources (e.g. keep `TYK_DASHBOARD_URL` in `.env`
-and pass a one-off `--api-key` for a rotated key):
-
-```bash
-# 1. Environment / .env only
-uv run tyk-dup-check
-
-# 2. CLI flags only (no .env needed at all)
-uv run tyk-dup-check \
-  --dashboard-url https://dashboard.your-company.com \
-  --api-key tyk-abc123...
-
-# 3. Mixed — .env supplies the URL, flag overrides the key
-uv run tyk-dup-check --api-key tyk-rotated-key...
-```
-
-Note: passing `--api-key` on the command line puts the key in your shell
-history and process list (`ps`). For anything beyond a quick one-off, prefer
-`.env`.
 
 ## CLI reference
 
@@ -245,21 +265,27 @@ api.example.com,/dp-oauth/,DEP OAuth v2 (draft),api11,000000000000000000000011
 ## Example usage
 
 ```bash
-# Basic check against the Dashboard configured in .env
-uv run tyk-dup-check
+# Basic check, credentials passed directly (the primary/recommended form)
+uv run tyk-dup-check --dashboard-url https://dashboard.your-company.com --api-key $TYK_API_KEY
 
-# One-off run against a different Dashboard, no .env needed
+# Same, but against a different environment for a one-off — no .env edits needed
 uv run tyk-dup-check --dashboard-url https://dashboard.staging.internal --api-key $STAGING_KEY
 
 # Loose mode: catch cross-domain / multi-host-template collisions too
-uv run tyk-dup-check --match-mode listen-path-only
+uv run tyk-dup-check --dashboard-url https://dashboard.your-company.com --api-key $TYK_API_KEY \
+  --match-mode listen-path-only
 
 # Include internal APIs in the check
-uv run tyk-dup-check --include-internal
+uv run tyk-dup-check --dashboard-url https://dashboard.your-company.com --api-key $TYK_API_KEY \
+  --include-internal
 
 # Machine-readable output piped to a file, for CI gating
-uv run tyk-dup-check --format json --output dupes.json
+uv run tyk-dup-check --dashboard-url https://dashboard.your-company.com --api-key $TYK_API_KEY \
+  --format json --output dupes.json
 if [ $? -ne 0 ]; then echo "duplicate routes found — see dupes.json"; fi
+
+# Equivalent short form once a .env file is set up (see "Using a .env file")
+uv run tyk-dup-check
 ```
 
 ## Troubleshooting
