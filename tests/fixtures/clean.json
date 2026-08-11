@@ -1,0 +1,29 @@
+{
+  "apis": [
+    {
+      "api_definition": {
+        "id": "000000000000000000000001",
+        "api_id": "api1",
+        "name": "Orders API",
+        "domain": "",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/orders/"}
+      },
+      "is_oas": false
+    },
+    {
+      "api_definition": {
+        "id": "000000000000000000000002",
+        "api_id": "api2",
+        "name": "Payments API",
+        "domain": "",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/payments/"}
+      },
+      "is_oas": true
+    }
+  ],
+  "pages": 1
+}

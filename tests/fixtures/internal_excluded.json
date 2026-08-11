@@ -1,0 +1,29 @@
+{
+  "apis": [
+    {
+      "api_definition": {
+        "id": "000000000000000000000030",
+        "api_id": "api30",
+        "name": "Public Countries API",
+        "domain": "",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/countries/"}
+      },
+      "is_oas": false
+    },
+    {
+      "api_definition": {
+        "id": "000000000000000000000031",
+        "api_id": "api31",
+        "name": "GraphQL Countries Subgraph (internal)",
+        "domain": "",
+        "domain_disabled": false,
+        "internal": true,
+        "proxy": {"listen_path": "/countries/"}
+      },
+      "is_oas": false
+    }
+  ],
+  "pages": 1
+}

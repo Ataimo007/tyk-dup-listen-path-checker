@@ -1,0 +1,29 @@
+{
+  "apis": [
+    {
+      "api_definition": {
+        "id": "000000000000000000000020",
+        "api_id": "api20",
+        "name": "Public API (prod domain)",
+        "domain": "public.example.com",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/v1/"}
+      },
+      "is_oas": false
+    },
+    {
+      "api_definition": {
+        "id": "000000000000000000000021",
+        "api_id": "api21",
+        "name": "Public API (staging domain)",
+        "domain": "staging.example.com",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/v1/"}
+      },
+      "is_oas": false
+    }
+  ],
+  "pages": 1
+}

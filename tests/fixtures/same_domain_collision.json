@@ -1,0 +1,41 @@
+{
+  "apis": [
+    {
+      "api_definition": {
+        "id": "000000000000000000000010",
+        "api_id": "api10",
+        "name": "DEP OAuth v1",
+        "domain": "api.example.com",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/dp-oauth/"}
+      },
+      "is_oas": false
+    },
+    {
+      "api_definition": {
+        "id": "000000000000000000000011",
+        "api_id": "api11",
+        "name": "DEP OAuth v2 (draft)",
+        "domain": "api.example.com",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/dp-oauth/"}
+      },
+      "is_oas": false
+    },
+    {
+      "api_definition": {
+        "id": "000000000000000000000012",
+        "api_id": "api12",
+        "name": "Unrelated API",
+        "domain": "api.example.com",
+        "domain_disabled": false,
+        "internal": false,
+        "proxy": {"listen_path": "/unrelated/"}
+      },
+      "is_oas": false
+    }
+  ],
+  "pages": 1
+}
