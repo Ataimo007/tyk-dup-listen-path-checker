@@ -91,12 +91,19 @@ directly as command arguments — no setup file required:
 ```bash
 uv run tyk-dup-check \
   --dashboard-url https://dashboard.your-company.com \
-  --api-key <your-dashboard-api-key>
+  --api-key <your-dashboard-api-key> \
+  --match-mode listen-path-only
 ```
 
 Get the API key from **Dashboard → User Profile → API Access Credentials**.
 That's the whole workflow — it connects, fetches every API, and prints any
 that share a route.
+
+`--match-mode listen-path-only` is shown here because it's the broader,
+catch-more check — it flags any APIs sharing a `listen_path` regardless of
+domain. Drop the flag (or set it to `domain-and-path`) for the stricter
+default that only flags true collisions; see [Match modes](#match-modes)
+for the difference.
 
 For brevity, the rest of this README mostly drops `--dashboard-url`/
 `--api-key` from examples; add them to any command below, or set up a
