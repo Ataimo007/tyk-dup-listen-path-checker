@@ -50,7 +50,7 @@ uv --version
 **2. Clone the repo:**
 
 ```bash
-git clone <this-repo-url>
+git clone https://github.com/Ataimo007/tyk-dup-listen-path-checker.git
 cd tyk-dup-listen-path-checker
 ```
 
